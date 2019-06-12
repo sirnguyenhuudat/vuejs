@@ -1,0 +1,47 @@
+﻿1. Khởi tạo
+var vm = new Vue({
+	// options
+})
+2. Constructor
+Khi khởi tạo 1 instance Vue, cần phải có các options chứa các tùy chọn cho data, template, element, methods, callback, …
+var app = new Vue({
+    el: '#app',
+    data: {
+	    message: 'hello world'
+    },
+    methods: {
+	    getSite : function () {
+	          return 'Hello'
+          }
+    }
+});
+3. Thuộc tính và phương thức
+Trong Vue, có thể khai báo cả phương thức và thuộc tính trong data, nên khai báo phương thức trong scope methods
+        var app = new Vue({
+            el: '#app',
+            data: {
+                	//thuộc tính
+                	message: 'hello world',
+               	// phương thức
+                	getSite : function () {
+                    	return 'Hello World'
+                	}
+            },
+		methods: {
+			getSite: function () {
+				return ‘HELLO WORLD’
+			}
+		}
+        });
+4. Instance Lifecycle Hook (Vòng đời hoạt động của Vue)
+
+beforeCreate- được gọi khi chúng ta khởi tạo vue.js và trước khi thực hiện tiến trình observe Data và init Events.
+created- được gọi khi tiến trình observe Data và init Events hoàn thành.
+beforeMount- được gọi ngay sau khi tiến trình render function hoàn tất.
+mounted- được gọi khi tiến trình replace el hoàn tất.
+beforeUpdate- được gọi khi data có sự thay đổi, và trước khi visualDOM re-rendered.
+updated- được gọi khi data đã được thay đổi.
+beforeDestroy- được gọi ngay trước khi vue instance được destroy.
+destroyed- được gọi khi vue instance đã được destroy.
+
+

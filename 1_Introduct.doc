@@ -1,0 +1,102 @@
+﻿Vue: là một progresive framework(nằm giữa libs và fullframework, quyết định được thành phần nào trong dự án, giảm những thứ không cần thiết như f) dùng để xây dựng giao diện người dùng.
+Vue dễ sử dụng, linh hoạt, hiệu suất cao.
+DOM - Document Object Model: là một giao diện lập trình ứng dụng. Thông thường DOM có dạng một cây cấu trúc dữ liệu, được dùng để truy xuất các tài liệu dạng HTML và XML.
+
+1. Render theo hướng khai báo (declarative)
+
+<div id="app">
+  {{ message }}
+</div>
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Do you wanna build a Vue app?'
+  }
+})
+- Ràng buộc(bind) các thuộc tính của phần tử web
+
+<div id="app-2">
+  <span v-bind:title="message">
+    Rê chuột lên đây một vài giây để xem thuộc tính `title` được bind!
+  </span>
+</div>
+
+var app2 = new Vue({
+  el: '#app-2',
+  data: {
+    message: 'Bạn đã mở trang này vào ' + new Date().toLocaleString()
+  }
+})
+
+Thuộc tính v-bind là một directive. Một directive trong Vue bắt đầu với v-, các thuộc tính này sẽ áp dụng một hành vi(behavior) đặc biệt lên kết quả DOM được render ra (trong ví dụ này, directive v-bind về cơ bản là đang giữ thuộc tính title của phần tử web luôn luôn đồng nhất với property message của đối tượng Vue được khởi tạo)
+
+2. Điều kiện v-if(directive)
+
+<div id="app-3">
+  <span v-if="seen">Thoắt ẩn thoắt hiện</span>
+</div>
+
+var app3 = new Vue({
+  el: '#app-3',
+  data: {
+    seen: true
+  }
+})
+
+3. Vòng lặp v-for(directive)
+<div id="app-4">
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ol>
+</div>
+var app4 = new Vue({
+  el: '#app-4',
+  data: {
+    todos: [
+      { text: 'Học JavaScript' },
+      { text: 'Học Vue' },
+      { text: 'Xây dựng cái gì đó hay ho' }
+    ]
+  }
+})
+4. Xử lý thông tin đầu vào của người dùng v-on, v-model (directive)
+v-on
+<div id="app-5">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'qua lại khách chờ sông lặng sóng'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split(' ').reverse().join(' ')
+    }
+  }
+})
+v-model
+
+<div id="app-6">
+  <p>{{ message }}</p>
+  <input v-model="message">
+</div>
+
+
+var app6 = new Vue({
+  el: '#app-6',
+  data: {
+    message: 'Hãy sửa thông điệp này'
+  }
+})
+5 Component(phần tử cấu thành)
+Hệ thống component cho phép chúng ta xây dụng những ứng dụng quy mô lớn được tạo thành từ những phần tử nhỏ, độc lập và tái sử dụng được.
+
+Get credentials for manual connections to this database.
+
+
+

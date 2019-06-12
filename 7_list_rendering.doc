@@ -1,0 +1,94 @@
+﻿1. v-for
+sử dụng directive v-for để hiển thị các item trong mảng
+v-for="(item, index) in list"
+. item: là biến được gán cho các item có trong mảng
+. index: chỉ số key của phần tử trong mang
+. list: mảng dữ liệu cần duyệt
+        <ul>
+            <li v-for="list in student">{{ list }}</li>
+        </ul>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                student: [
+                'A',
+                'B',
+                'C',
+                ]
+            }
+        });
+    </script>
+Có thể sử dụng of thay thế in
+2. template v-for
+Muốn render 1 nhóm tag trong mỗi lần lặp thì sử dụng tag template để gom nhóm các tag đó giống như v-if
+        <ul >
+            <template v-for="list of student">
+                <li class="border"></li>
+                <li>{{ list }}</li>
+            </template>
+            
+        </ul>
+3. Object v-for
+Có thể dùng v-for duyệt các phần tử bên trong object
+        <ul >
+            <template v-for="list in student">
+                <li>{{ list }}</li>
+            </template>
+
+        </ul>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                student: {
+                    name : 'Vũ Thanh Tài',
+                    age: 22,
+                    address: 'Nam Định'
+                }
+            }
+        });
+    </script>
+4. v-for with v-if
+Trên cùng 1 tag nếu tồn tại cả v-for và v-if thì sẽ ưu tiên v-for trước.
+        <ul >
+            <li v-for="item in student" v-if="item.name">{{ item }}</li>
+        </ul>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                student: [
+                	{ name : 'A'},
+                	{ name : 'B'},
+                	{ age : 22},
+                	{ name : 'C'},
+                ]
+            }
+        });
+    </script>
+nếu muốn xác định sự tồn tại của vòng lặp thì cần đặt v-if bao ngoài v-for là được, hoặc  đặt v-if trong tag template
+        <template v-if="allow">
+            <ul>
+                <li v-for="item in student">{{ item }}</li>
+            </ul>
+        </template>’
+5. Displaying filtered or sorted results
+    <ul>
+        <li v-for="item in evenNumber">{{ item }}</li>
+    </ul>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            numbers: [1,3,5,9,6,4,2,12,34]
+        },
+        computed : {
+            evenNumber: function () {
+                return this.numbers.filter(function (number) {
+                  return number % 2 === 0
+              });
+            }
+        }
+    });
+</script>

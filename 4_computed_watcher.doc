@@ -1,0 +1,59 @@
+﻿1. Computed property
+Computed property trong Vue được thể hiện dưới dạng một phương thức hoặc một object chứa các phương thức setter và getter, nhưng khi bạn gọi một computed property thì lại gọi như một thuộc tính bình thường.
+<h1 class="text-red">{{ convertToUpper }}</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'hello world'
+            },
+            computed : {
+                convertToUpper: function (){
+                    return this.name.toUpperCase();
+                }
+            }
+        });
+        console.log(app.convertToUpper);
+    </script>
+Computed khác với methods ở chỗ computed được lưu vào cache và computed chỉ được thay đổi khi dữ liệu bên trong nó thay đổi.
+- Getter - Setter
+Mặc định mỗi computed property chỉ chứa getter
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'hello world'
+            },
+            computed : {
+                convertToUpper: {
+                    get : function () {
+                        return this.name.toUpperCase();
+                    },
+                    set: function (name) {
+                        this.name = name;
+                    }
+                }
+            }
+        });
+    </script>
+console.log(app.convertToUpper) 	// Get
+app.convertToUpper = 'Hi everyone'	// Set
+2. Watcher
+Theo dõi sự thay đổi của dữ liệu và thực thi hành động kèm theo
+Chú ý: Tên watcher phải trùng với tên data cần theo dõi
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'Hello World' //giá trị ban đầu.
+            },
+            watch: {
+                name : function () {
+                    alert(this.name);
+                }
+            }
+        });
+        //thiết lập lại giá trị
+        app.name = "Hello Vuejs";
+    </script>
+

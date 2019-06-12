@@ -1,0 +1,113 @@
+﻿1. Interpolation(nội suy)
+- Text (dữ liệu dạng thô không được append HTML)
+ 	{{ avariable }}	// avariable là tên thuộc tính khai báo ở vue instance
+Có thể sử dụng các hàm, toán tử, câu lệnh điều kiện của javascrpit trong {{ }}
+- RawHTML (v-html)
+	<span v-html="slogan"></span>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                slogan: 'Hello <font color="orange">World</font>'
+            },
+        });
+    </script>
+- Attributes
+Để thêm các attribute vào tagHTML bằng dữ liệu trong Vue, sử dụng :
+<h1 v-bind:class="className" v-bind:style="styleData" v-html="slogan"></h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                slogan: 'Hello <font color="orange">World</font>',
+                className: 'text-red',
+                styleData: 'text-align: center',
+            },
+        });
+    </script>
+2. Directives
+Directives trong vue là các attribute được thiết lập bằng các tiền tố v-. Giá trị của các attribute này thường là các biểu thức javascript duy nhất, trừ v-for
+<h1 v-if="publish" v-bind:class="className" v-bind:style="textCenter" v-html="message"></h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+			message: "Hello World",
+                	className : "text-red",
+                	textCenter: "text-align: center",
+                	publish: true,
+            },
+        });
+    </script>
+- Event
+Thêm các Event trên DOM bằng directives v-on
+<button v-on:click="showAlert">Click</button>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            methods: {
+                showAlert : function () {
+                    alert('bạn vừa click vào button');
+                }
+            }
+        });
+    </script>
+- Modifiers
+Directives dạng này cho phép bạn định nghĩa một hành động đặc biệt khi thực hiện directives đó. Các modifiers này ngăn cách với directives bởi dấu .
+<a href='google.com' v-on:click.prevent='clickTag'>Google</a>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            methods: {
+gười đàn ông chân này như tôi biết anh ta thật tuyệt              	clickTag: function () {
+                 	alert('Hello');
+                }
+            }
+        });
+    </script>
+- Filters (|)
+<h1 class="text-red">{{ banner | strUpperCase }}</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                banner: 'hello world'
+            },
+            filters : {
+                strUpperCase : function (banner) {
+                    return banner.toUpperCase();
+                }
+            }
+        });
+    </script>
+Filter trong directive v-bind
+<h1 v-bind:class="OldClass | newClass"></h1>
+Muốn dùng nhiều filters cùng lúc thì cứ ngăn cách nó bởi dấu |, cũng có thể truyền tham số vào trong filters, nhưng tham số truyền vào tiếp theo sẽ được tính từ tham số thứ 2
+<h1 class="text-red">{{ name | strUpperCase |sliceString(5) }}</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'hello world'
+            },
+            filters : {
+                strUpperCase : function (data) {
+                    return data.toUpperCase();
+                },
+                sliceString : function (data, num) {
+                    return data.slice(num); 
+                }
+            }
+        });
+    </script>
+3. Shorthands
+Tiền tố v- đánh dấu sử dụng vue so với các framework khác, hoặc có thể viết ngắn gọn hơn
+<!-- cú pháp đầy đủ --> 
+<a v-bind:href="url"></a> 
+<!-- cú pháp ngắn gọn --> 
+<a :href="url"></a>
+
+<!-- cú pháp đầy đủ --> 
+<a v-on:click="doSomething"></a>
+<!-- cú pháp ngắn gọn --> 
+<a @click="doSomething"></a>

@@ -1,0 +1,150 @@
+﻿1. Basic Usage
+v-model bỏ qua tất cả khởi tạo của value, checked hay selected trên các thành phần của form và nó luôn xử lý các dữ liệu có trogn Vue instance, chính vì thế nên khai báo các giá trị khởi tạo đó ở trong data scope của Vue instance
+- text
+        <input type="text" v-model="message" placeholder="Nhập cái gì đó vào đây đi ông bạn!">
+        <p>Mesage = {{ message }}</p>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: null,
+            }
+        });
+    </script>   
+- textarea
+<textarea v-model="message" placeholder="Nhập cái gì đó vào đây đi ông bạn!">
+<p>Mess: {{ mesage }}</p>
+Đối với textarea không thể bind dữ liệu bằng cách <textarea>{{ message }}</textarea> mà phải sử dụng cú pháp v-model như trên
+- checkbox
+        <input type="checkbox" v-model="checked">
+        <label>{{ checked }}</label>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                checked: false,
+            }
+        });
+    </script>   
+multi
+	  <input type="checkbox" id="php" value="PHP" v-model="checked">
+        <label for="php">PHP</label>
+        <input type="checkbox" id="js" value="JS" v-model="checked">
+        <label for="js">JS</label>
+        <input type="checkbox" id="nodejs" value="Node.js" v-model="checked">
+        <label for="nodejs">Node.js</label>
+        <p>Các input đã check: {{ checked }}</p>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                checked: [],
+            }
+        });
+    </script>   
+- radio
+<input type="radio" name="language" value="PHP" v-model="checked">
+<label for="php">PHP</label>
+<input type="radio" name="language" value="JS" v-model="checked">
+<label for="js">JS</label>
+<input type="radio" name="language" value="Node.js" v-model="checked">
+<label for="nodejs">Node.js</label>
+<p>Radio đã check: {{ checked }}</p>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                checked: null,
+            }
+        });
+    </script>   
+- selected
+        <select name="language" v-model="selected">
+            <option value="" disabled="true" selected>Chọn...</option>
+            <option value="PHP">PHP</option>
+            <option value="JS">JS</option>
+            <option value="Node.js">Node.js</option>
+            <option value="Vue.js">Vue.js</option>
+        </select>
+        <p>Select đã chọn: {{ selected }}</p>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selected: '',
+            }
+        });
+    </script>   
+Nếu giá trị khởi tạo không khớp với option nào thì sẽ kích hoạt trạng thái unselected → không hoạt động được trên IOS vì IOS không hỗ trợ trường hợp thay đổi này → cần thêm option ở trạng thái disabled để khắc phục hạn chế này
+Multi
+        <select name="language" v-model="selected" multiple>
+            <option value="" disabled="true" selected>Chọn...</option>
+            <option value="PHP">PHP</option>
+            <option value="JS">JS</option>
+            <option value="Node.js">Node.js</option>
+            <option value="Vue.js">Vue.js</option>
+        </select>
+        <p>Select đã chọn: {{ selected }}</p>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selected: [],
+            }
+        });
+    </script>   
+Có thể kết hợp với v-for để render dữ liệu cho select element
+2. Value bindings
+Đối với các thành phần radio hoặc select option thì v-model thường là chuỗi tĩnh, còn thành phần checkbox thì thường sẽ là boolean. Nhưng đôi lúc bạn muốn sử dụng các thuộc tính có giá trị động trên vue instance thì có thể sử dụng v-bind
+- select
+<input type="checkbox" v-model="toggle" v-bind:true-value="yes" v-bind:false-value="no">
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                toggle: true, 	// nếu giá trị toggle  = giá trị yes thì 
+                yes: true,		// checkbox sẽ checked và ngược lại
+                no: false,		
+            }
+        });
+    </script>
+- radio
+<input type="radio" v-model="pick" v-bind:value="a">
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                pick: 'b',		// nếu giá trị pick = giá trị a thì
+                a: 'b'			// radio sẽ được checked
+            }
+        });
+    </script>
+- select
+        <select v-model="selected">
+          <option v-bind:value="{value : 'java'}">Java</option>
+          <option v-bind:value="{value : 'c#'}">C#</option>
+          <option v-bind:value="{value : 'php'}">PHP</option>
+        </select>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selected: { value : 'php'}	// nếu giá trị selected.value =
+            }						// value thì option sẽ selected
+        });
+    </script>
+3. Modifiers
+- .lazy
+Thông thường v-model sẽ tự động đồng bộ, nhưng nếu muốn thay đổi trạng thái đó sử dụng .lazy để chuyển nó sang trạng thái change event(khi input thay đổi dữ liệu xong thì mới tiến hành đồng bộ);
+        <input type="text" v-model.lazy="message" placeholder="nhập dữ liệu...">
+        <p>message = {{ message }}</p>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: null
+            }
+        });
+    </script>
+- .trim
+Loại bỏ khoảng trắng ở 2 đầu của dữ liệu

@@ -1,0 +1,89 @@
+﻿1. Classes binding
+- cú pháp object
+<h1 v-bind:class="{ active : isActive, 'text-red': isRed }">Hello</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+			isRed: true,
+			isActive: false
+            },
+            
+        });
+    </script>
+// class active và text-red chỉ xuất hiện khi giá trị của isActive và isRed là true;
+
+<h1 v-bind:class="classObject">Hello</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                classObject:
+                { 'text-red': true }
+            },
+// hoặc	computed: {
+//                classObject : function () {
+//                    return { 'text-red' : this.isRed}
+//               }
+//           }
+        });
+    </script>
+- cú pháp array
+ <h1 v-bind:class="[border, textRed]">Hello</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                border: 'border-bottom',
+                textRed: 'text-red'
+            }
+        });
+    </script>
+
+<h1 v-bind:class="[{'border-bottom' : isBorder}, textRed]"></h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                isBorder: true,
+                textRed: 'text-red'
+            }
+        });
+hoặc
+<h1 v-bind:class="[isBorder ? 'border-bottom' : '', textRed]"></h1>
+2. Binding inline styles
+- cú pháp object
+<h1 v-bind:style="{color: colorValue, borderBottom : borderValue, paddingBottom: paddingValue}">Hello</h1>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                colorValue: 'red',
+                borderValue: '1px solid orange',
+                paddingValue: '10px',
+            }
+        });
+    </script>
+// các thuộc tính có từ 2 từ trở lên(text-align, border-bottom, …) có thể viết dưới dạng cameCase hoặc snake_case(nhưng phải để trong dấu ‘snake_case’)
+- kiểu array
+ <h1 v-bind:style="[colorValue, borderValue, paddingValue]">Chào mừng bạn đến với website toidicode.com</h1>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                colorValue: {
+                    color : 'red'
+                },
+                borderValue: {
+                    //sanke_case
+                    'border-bottom' : '1px solid orange'
+                },
+                paddingValue: {
+                    //camelCase
+                    paddingBottom: '10px'
+                }
+            }
+        });
+    </script>
+// đối với các thuộc  tính đỏi hỏi thêm tiền tố prefix như transform, animation, … thì vue cũng tự động render thêm các prefix 

@@ -1,0 +1,23 @@
+﻿1. v-if, v-else, v-else-ìf
+<h1 v-if="show">Hello World</h1>
+<h1 v-else >Xin Chào</h1>
+<button type="button" @click="toggleTag">Toggle Tag</button>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                show: true,
+            },
+            methods: {
+                toggleTag : function () {
+                    if (this.show == true ) {
+                        this.show = false;
+                    } else {
+                        this.show = true;
+                    }
+                }
+            }
+        });
+    </script>
+2. v-show
+Tương tự v-if, nhưng v-show luôn được render, nó chỉ ẩn đi bằng css, còn lại trên DOM thì vẫn tồn tại tag chứa nó

@@ -1,0 +1,138 @@
+﻿1. Component?
+Component là một trong các tính năng mạnh mẽ nhất của Vue. Giúp gom nhóm các mã HTML lại để tái sử dụng cho các module tương tự. Ở mức độ cao thì component là một thành phần được Vue biên dịch để xử lý các hành vi. Và trong một vài trường hợp thì nó cũng có thể xuất hiện như một phần tử HTML với các attribute đặc biệt.
+2. Using components
+- Global registration
+Vue.component('tag', options)
+. tag: tên muốn gán cho component đó
+. options: object chứa các tham số là template hay dữ liệu kèm theo
+chú ý: Vue không thực thi các quy tắc của W3C cho tên của các component tag(tất cả đều là chữ thường và phải có dấu nối giữa các từ)
+    <div id="app">
+        <tdc-component></tdc-component>
+    </div>
+
+    <script type="text/javascript">
+        //đăng ký component
+        Vue.component('tdc-component',{
+            template: '<h1>Hello World</h1>'
+        });
+        var app = new Vue({
+            el: '#app',
+        });
+    </script>
+- Local Registration
+    <div id="app">
+        <tdc-component></tdc-component>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            components: {
+                'tdc-component': {
+                    template : '<h1>Hello World</h1>'
+                }
+            }
+        });
+    </script>
+- DOM template parsing caveats
+    <div id="app">
+        <table>
+            <tr is="tdc-component"></tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            components: {
+                'tdc-component': {
+            		template : '<tr>Hello World</tr>'
+        		}
+            }
+        });
+    </script>
+- Data must be a function
+Đối với data scope phải là một function chứ không phải object như Vue instance
+    <div id="app">
+        <tdc-component></tdc-component>
+    </div>
+    <script type="text/javascript">
+        var data = {
+            message: 'Hello World'		// data global	
+        };
+        Vue.component('tdc-component', {
+            template: '<h1>{{ message }}</h1>',
+            data: function() {
+                return data;
+            }
+        });
+        var app = new Vue({
+            el: '#app'
+        });
+    </script>
+- Composing Component
+Trong Vue, các component được sử dụng cùng nhau, thông thường chúng ta có thể nhìn thấy mối quan hệ parent-child: component A có thể sử dụng được component B trong template riêng của nó và nó không nhất thiết phải giao tiếp với nhau mà vẫn có thể gửi thông điệp cho nhau được
+        <component-b></component-b>
+    <script type="text/javascript">
+        Vue.component('component-a', {
+            template: '<font v-bind:color="color">Hello World</font>',
+            data: function () {
+                return { color: "red" }
+            }
+        });
+        Vue.component('component-b', {
+            template: '<h1><component-a></component-a></h1>',
+        });
+        var app = new Vue({
+            el: '#app'
+        });
+    </script>
+Tuy nhiên nên tách nó ra các interface khác nhau để tiện cho việc bảo trì và có thể tái sử dụng nhiều lần
+
+Parent truyền props cho child và child phản hồi cho parent bằng event
+3. Props
+	Là một attribute tùy chỉnh dùng để truyền data từ component parent đến các component child, và để có thể nhận được dữ liệu từ component parent thì component child phải khai báo prop mà nó mong muốn nhận được từ component parent bằng cách đặt tên prop ở trong props
+    <child message="Hello World"></child>
+    <script type="text/javascript">
+        Vue.component('child', {
+            props: ['message'],
+            template: '<h1>{{ message }}</h1>',
+            
+        });
+        var app = new Vue({
+            el: '#app',
+        });
+    </script>
+- camelCase và kebab-case
+	Trong HTML sẽ không phân biệt chữ hoa hay chữ thường, nên nếu muốn sử dụng kiểu đặt tên camelCase cho prop thì ở lúc gọi componen thì chuyển về kebab-case
+<child my-say="Hello World"></child>
+    <script type="text/javascript">
+        Vue.component('child', {
+            props: ['mySay'],
+            template: '<h1>{{ mySay }}</h1>',
+
+        });
+        var app = new Vue({
+            el: '#app',
+        });
+    </script>
+- Dynamic props
+Có thể sử dụng v-bind ràng buộc prop data trên cấp cha, và dữ liệu ở cấp cha thay đổi thì cấp con cũng thay đổi theo.
+	  <p>
+            <input type="text" v-model="message">
+        </p>
+        <child v-bind:my-say="message"></child>
+    <script type="text/javascript">
+        Vue.component('child', {
+            props: ['mySay'],
+            template: '<h1>{{ mySay }}</h1>',
+
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message : null
+            }
+        });
+    </script>
+- One-Way Data flow 
+Tất cả các props trong Vue đều là one-way-down, nó dùng để binding data giữa cấp cha và cấp con. Khi dữ liệu ở cấp cha thay đổi thì nó sẽ được binding xuống cấp con, nhưng khi cấp con thay đổi thì props sẽ không làm thay đổi được cấp cha.
+Ngoài ra, nếu như dữ liệu ở cấp cha thay đổi thì cấp con sẽ cập nhật và lấy giá trị mới nhất của dữ liệu thay đổi đó.
